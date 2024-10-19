@@ -26,6 +26,18 @@ const submitForm = () => {
 	});
 };
 
+const deleteNote = async (noteId) => {
+    form.delete(`/note-taker/delete-note/${noteId}`, {
+        onSuccess: () => {
+        	fetchNotes();
+        },
+        onError: (errors) => {
+            console.error('Error: ', errors);
+        }
+    });
+};
+
+
 onMounted(() => {
 	fetchNotes();
 });
@@ -40,8 +52,9 @@ onMounted(() => {
 	</form>
 
 	<ul>
-		<li v-for="note in notes" :key="note.id">
+		<li v-for="note in notes" :key="note.id" class="mb-2">
 			{{ note.contents }} 
+			<button @click.prevent="deleteNote(note.id)" class="btn btn-danger">Delete</button>
 		</li>
 	</ul>
 </template>
