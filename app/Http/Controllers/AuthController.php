@@ -15,12 +15,24 @@ class AuthController extends Controller
      */
     public function index(LoginRequest $request)
     {
-        //
+        $incomingFields = $request->validated();
+
+        if (Auth::attempt($incomingFields)) {
+            $request->session()->regenerate();
+
+            return redirect()->route('note-taker/home');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records',
+        ])->onlyInput('email');
     }
 
     public function logout()
     {
-        //
+        Auth::logout();
+
+        return redirect()->route('/');
     }
 
     /**
