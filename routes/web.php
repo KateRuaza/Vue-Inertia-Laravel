@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('note-taker')->group(function () {
 		Route::inertia('home', 'NoteTaker/Home')->name('note-taker/home');
 		Route::post('create-note', [NoteController::class, 'store'])->name('note-taker/create-note');
+		Route::get('notes', [NoteController::class, 'index'])->name('note-taker/notes');
 	});
 
 	Route::get('logout', [AuthController::class, 'logout'])->name('logout');
