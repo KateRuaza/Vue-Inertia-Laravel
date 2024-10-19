@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Default/LandingPage')->name('/');
@@ -13,5 +14,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+	Route::prefix('note-taker')->group(function () {
+		Route::inertia('home', 'NoteTaker/Home')->name('note-taker/home');
+		Route::post('create-note', [NoteController::class, 'store'])->name('note-taker/create-note');
+	});
+
 	Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
